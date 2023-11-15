@@ -1,9 +1,20 @@
 import requests
 import os
+import base64
+import codecs
+import time
 
 def main():
     name = input("Enter your name: ")
-    print(f"Welcome, {name}!")
+    print(f"Welcome, {name}! To...")
+    time.sleep(2)
+    print("╱╱╱╭━━━╮╱╱╭━━━┳━━━╮ ")
+    print("╱╱╱┃╭━╮┃╱╱┃╭━╮┃╭━╮┃ ")
+    print("╭━━┫┃┃┃┣╮╭╋╯╭╯┃╰━╯┃ ")
+    print("┃╭━┫┃┃┃┃╰╯┣╮╰╮┃╭╮╭╯ ")
+    print("┃╰━┫╰━╯┣╮╭┫╰━╯┃┃┃╰╮ ")
+    print("╰━━┻━━━╯╰╯╰━━━┻╯╰━╯ ")
+    print("Cover your fingerprint/tracks. Easy, Encrypted, 𝕊𝔼ℂ𝕌ℝ𝔼.")
 
     while True:
         message = input("What would you like to say? (Type 'again' to refresh, 'exit' to clear file and end): ")
@@ -17,15 +28,38 @@ def main():
             get_and_display_messages()
             clear_terminal()
         else:
-            # Post the message to the server with the name
-            post_message(name, message)
+            # Encode the message with base64 and apply ROT13
+            encoded_message = encode_message(message)
+            # Post the encoded message to the server with the name
+            post_message(name, encoded_message)
             # Clear the terminal and display messages from the server
             clear_terminal()
             get_and_display_messages()
 
+def encode_message(message):
+    # Encode with base64 and add padding
+    encoded_message = base64.b64encode(message.encode()).decode() + '==='
+    # Apply ROT13
+    encoded_message_rot13 = codecs.encode(encoded_message, 'rot_13')
+    return encoded_message_rot13
+
+def decode_message(encoded_message_rot13):
+    # Reverse ROT13
+    decoded_message_base64 = codecs.decode(encoded_message_rot13, 'rot_13')
+    
+    # Calculate the required padding
+    padding = '=' * (4 - (len(decoded_message_base64) % 4))
+    
+    # Add padding, decode base64, and then decode to UTF-8
+    decoded_message = base64.b64decode(decoded_message_base64 + padding).decode('utf-8', 'ignore')
+    return decoded_message
+
 def post_message(name, message):
+    # Use a different separator to avoid issues during decoding
+    separator = '__'
+    data = f'{name}{separator}{message}\n'
+    
     url = "https://upbeatclosedcore.gilpinfamily.repl.co/"
-    data = f'{name}: {message}\n'
     response = requests.post(url, data=data)
 
     if response.status_code == 200:
@@ -42,7 +76,16 @@ def get_and_display_messages():
         print("Messages from the server:")
         for message in messages:
             if message.strip():
-                print(message.strip())
+                # Separate the name and message using the chosen separator
+                separator = '__'
+                if separator in message:
+                    name, encoded_message = message.strip().split(separator, 1)
+                    # Decode the message received from the server
+                    decoded_message = decode_message(encoded_message)
+                    # Adjust the printing format
+                    print(f'{name} > {decoded_message}')
+                else:
+                    print(f"Error: Separator not found in message: {message}")
     else:
         print(f"Failed to retrieve messages. Status code: {response.status_code}")
 
