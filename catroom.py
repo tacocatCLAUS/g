@@ -11,15 +11,15 @@ def go():
     print("(2) s@v3r")
     choice = input()
     if choice == "2":
-        posttopaste(name)  # Pass 'name' as an argument
+        posttopaste(name)
     elif choice == "1":
-        main(name)  # Pass 'name' as an argument
+        main(name)
     else:
         print('\U0001F595')
         os.system('clear' if os.name == 'posix' else 'cls')
         print("Hi welcome to my little calculator! :)")
 
-def posttopaste(name):  # Accept 'name' as a parameter
+def posttopaste(name):
     print(f"Welcome, {name}! To...")
     time.sleep(2)
     print('''
@@ -30,16 +30,23 @@ def posttopaste(name):  # Accept 'name' as a parameter
 ┣━━┃╭━╮┣╮╭┫╰━╯┃┃
 ╰━━┻╯╱╰╯╰╯╰━━━┻╯
 ''')
-    api_dev_key = 'kqKoToXdaHn4gQyHvcdLfSkiNtVzsoXg'  # your api_developer_key
+    api_dev_key = 'kqKoToXdaHn4gQyHvcdLfSkiNtVzsoXg'
 
-    # Get user input for paste text
-    api_paste_code = input("Enter the text you want to post: ")
+    # Get multi-line input for paste text
+    print("Enter the text you want to post (Ctrl-D to finish):")
+    api_paste_code = ""
+    try:
+        while True:
+            line = input()
+            api_paste_code += line + "\n"
+    except EOFError:
+        pass
 
-    api_paste_private = '1'  # 0=public 1=unlisted 2=private
-    api_paste_name = input("Enter the name for the script [make sure to add your file ending if it is a file]: ")  # name or title of your paste
+    api_paste_private = '1'
+    api_paste_name = input("Enter the name for the script [make sure to add your file ending if it is a file]: ")
     api_paste_expire_date = '10M'
     api_paste_format = 'php'
-    api_user_key = ''  # if an invalid or expired api_user_key is used, an error will spawn. If no api_user_key is used, a guest paste will be created
+    api_user_key = ''
 
     url = 'https://pastebin.com/api/api_post.php'
 
@@ -63,19 +70,16 @@ def posttopaste(name):  # Accept 'name' as a parameter
         raw_url = paste_url.replace("pastebin.com", "pastebin.com/raw")
         print("Paste URL:", paste_url)
 
-        # Get user input for the file name
         file_name = api_paste_name
 
-        # Download the raw content
         raw_content = requests.get(raw_url).text
 
-        # Save the raw content to a file
         with open(file_name, 'w') as file:
             file.write(raw_content)
 
         print("File downloaded successfully.")
 
-def main(name):  # Accept 'name' as a parameter
+def main(name):
     print(f"Welcome, {name}! To...")
     time.sleep(2)
     print("╱╱╱╭━━━╮╱╱╭━━━┳━━━╮ ")
@@ -90,42 +94,29 @@ def main(name):  # Accept 'name' as a parameter
         message = input("What would you like to say? (Type 'again' to refresh, 'exit' to clear file and end): ")
 
         if message.lower() == 'exit':
-            # Clear the file by sending a special request to the server
             clear_file()
             break
         elif message.lower() == 'again':
-            # Display messages from the server and clear the terminal
             get_and_display_messages()
             clear_terminal()
         else:
-            # Encode the message with base64 and apply ROT13
             encoded_message = encode_message(message)
-            # Post the encoded message to the server with the name
             post_message(name, encoded_message)
-            # Clear the terminal and display messages from the server
             clear_terminal()
             get_and_display_messages()
 
 def encode_message(message):
-    # Encode with base64 and add padding
     encoded_message = base64.b64encode(message.encode()).decode() + '==='
-    # Apply ROT13
     encoded_message_rot13 = codecs.encode(encoded_message, 'rot_13')
     return encoded_message_rot13
 
 def decode_message(encoded_message_rot13):
-    # Reverse ROT13
     decoded_message_base64 = codecs.decode(encoded_message_rot13, 'rot_13')
-    
-    # Calculate the required padding
     padding = '=' * (4 - (len(decoded_message_base64) % 4))
-    
-    # Add padding, decode base64, and then decode to UTF-8
     decoded_message = base64.b64decode(decoded_message_base64 + padding).decode('utf-8', 'ignore')
     return decoded_message
 
 def post_message(name, message):
-    # Use a different separator to avoid issues during decoding
     separator = '__'
     data = f'{name}{separator}{message}\n'
     
@@ -146,13 +137,10 @@ def get_and_display_messages():
         print("Messages from the server:")
         for message in messages:
             if message.strip():
-                # Separate the name and message using the chosen separator
                 separator = '__'
                 if separator in message:
                     name, encoded_message = message.strip().split(separator, 1)
-                    # Decode the message received from the server
                     decoded_message = decode_message(encoded_message)
-                    # Adjust the printing format
                     print(f'{name} > {decoded_message}')
                 else:
                     print(f"Error: Separator not found in message: {message}")
@@ -183,4 +171,3 @@ else:
     mult = calc * calc2
     mult = str(mult)
     print("Here is them multiplied: " + mult)
-
