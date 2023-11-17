@@ -4,8 +4,78 @@ import base64
 import codecs
 import time
 
-def main():
-    name = input("Enter your name: ")
+def go():
+    name = input("Enter your username ᵇᵉ ᵃⁿᵒⁿʸᵐᵒᵘˢ: ")
+    print("What would you like to do on this fine day, " + name + "?")
+    print("(1) c0v3r")
+    print("(2) s@v3r")
+    choice = input()
+    if choice == "2":
+        posttopaste(name)  # Pass 'name' as an argument
+    elif choice == "1":
+        main(name)  # Pass 'name' as an argument
+    else:
+        print('\U0001F595')
+        os.system('clear' if os.name == 'posix' else 'cls')
+        print("Hi welcome to my little calculator! :)")
+
+def posttopaste(name):  # Accept 'name' as a parameter
+    print(f"Welcome, {name}! To...")
+    time.sleep(2)
+    print('''
+╱╱╱╭━━━╮╱╱╭━━━╮
+╱╱╱┃╭━╮┃╱╱┃╭━╮┃
+╭━━┫┃╱┃┣╮╭╋╯╭╯┣━╮
+┃━━┫╰━╯┃╰╯┣╮╰╮┃╭╯
+┣━━┃╭━╮┣╮╭┫╰━╯┃┃
+╰━━┻╯╱╰╯╰╯╰━━━┻╯
+''')
+    api_dev_key = 'kqKoToXdaHn4gQyHvcdLfSkiNtVzsoXg'  # your api_developer_key
+
+    # Get user input for paste text
+    api_paste_code = input("Enter the text you want to post: ")
+
+    api_paste_private = '1'  # 0=public 1=unlisted 2=private
+    api_paste_name = input("Enter the name for the script [make sure to add your file ending if it is a file]: ")  # name or title of your paste
+    api_paste_expire_date = '10M'
+    api_paste_format = 'php'
+    api_user_key = ''  # if an invalid or expired api_user_key is used, an error will spawn. If no api_user_key is used, a guest paste will be created
+
+    url = 'https://pastebin.com/api/api_post.php'
+
+    data = {
+        'api_option': 'paste',
+        'api_user_key': api_user_key,
+        'api_paste_private': api_paste_private,
+        'api_paste_name': api_paste_name,
+        'api_paste_expire_date': api_paste_expire_date,
+        'api_paste_format': api_paste_format,
+        'api_dev_key': api_dev_key,
+        'api_paste_code': api_paste_code,
+    }
+
+    response = requests.post(url, data=data)
+
+    if response.text.startswith('Bad API request'):
+        print("Error in API request:", response.text)
+    else:
+        paste_url = response.text
+        raw_url = paste_url.replace("pastebin.com", "pastebin.com/raw")
+        print("Paste URL:", paste_url)
+
+        # Get user input for the file name
+        file_name = api_paste_name
+
+        # Download the raw content
+        raw_content = requests.get(raw_url).text
+
+        # Save the raw content to a file
+        with open(file_name, 'w') as file:
+            file.write(raw_content)
+
+        print("File downloaded successfully.")
+
+def main(name):  # Accept 'name' as a parameter
     print(f"Welcome, {name}! To...")
     time.sleep(2)
     print("╱╱╱╭━━━╮╱╱╭━━━┳━━━╮ ")
@@ -101,6 +171,16 @@ def clear_file():
     else:
         print(f"Failed to clear file. Status code: {response.status_code}")
 
-if __name__ == "__main__":
-    main()
+print("Hi welcome to my little calculator! :)")
+calc = input("What numbers would you like to multiply? ")
+
+if calc.lower() == "no":
+    go()
+else:
+    calc = int(calc)
+    calc2 = input("What is your second number? ")
+    calc2 = int(calc2)
+    mult = calc * calc2
+    mult = str(mult)
+    print("Here is them multiplied: " + mult)
 
