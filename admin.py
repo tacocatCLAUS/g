@@ -84,9 +84,13 @@ def posttopaste(name):
         phone = input()
         
         if phone == "1":
-            request_thing = "Hi" + name + "'s phone. The url for " + file_name + " is: " + raw_url
+            request_thing = "Hi" + name + "'s phone. You wanted  " + file_name + " to be sent to you."
             requests.post("https://ntfy.sh/calculatorcatroompremium",
-                data=request_thing.encode(encoding='utf-8'))
+                data=request_thing.encode(encoding='utf-8'),
+                headers={
+        "Click": raw_url,
+        "Title": "Files sent successfully! (Click To View)"
+    })
             print("Sent. Keep in mind it will expire in a week.")
         elif phone == "2":
             print("Okay. Have fun scripting!")
@@ -173,7 +177,19 @@ def clear_file():
         print("File cleared successfully")
     else:
         print(f"Failed to clear file. Status code: {response.status_code}")
+        
+x = requests.get("https://upbeatclosedcore.gilpinfamily.repl.co/")
+if x.status_code == 200:  # Status code should be compared to an integer, not a string
+    request_thing = '\U0001F7E9'
+else:
+    request_thing = '\U0001F534'  # Change this emoji to represent a different status if needed
 
+poster = "c0v3r server status: " + request_thing
+requests.post("https://ntfy.sh/calculatorcatroompremium",
+    data=poster.encode(encoding='utf-8'),
+    headers={
+            "Title": "Status Of Server Sent!"
+             })
 print("Hi welcome to my little calculator! :)")
 calc = input("What numbers would you like to multiply? ")
 
@@ -186,3 +202,5 @@ else:
     mult = calc * calc2
     mult = str(mult)
     print("Here is them multiplied: " + mult)
+
+
