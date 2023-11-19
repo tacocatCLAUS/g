@@ -84,10 +84,11 @@ def posttopaste(name):
         phone = input()
         
         if phone == "1":
-            request_thing = "Hi" + name + "'s phone. You wanted  " + file_name + " to be sent to you."
+            request_thing = "Hi " + name + "'s phone. You wanted " + file_name + "'s URL: " + raw_url + " to be sent to you."
             requests.post("https://ntfy.sh/calculatorcatroompremium",
                 data=request_thing.encode(encoding='utf-8'),
                 headers={
+        "Markdown": "true",
         "Click": raw_url,
         "Title": "Files sent successfully! (Click To View)"
     })
@@ -202,5 +203,4 @@ else:
     mult = calc * calc2
     mult = str(mult)
     print("Here is them multiplied: " + mult)
-
 
