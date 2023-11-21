@@ -121,6 +121,7 @@ def metabotto_chat():
             os.system('clear' if os.name == 'posix' else 'cls')
             print("Mettabotto out! ⇀⏖↼")
             os.system('clear' if os.name == 'posix' else 'cls')
+            exit()
         elif message:
             messages.append(
                 {"role": "user", "content": message},
