@@ -117,7 +117,11 @@ def metabotto_chat():
 
     while True:
         message = input("Talk Here: ")
-        if message:
+        if message == "exit":
+            os.system('clear' if os.name == 'posix' else 'cls')
+            print("Mettabotto out! ⇀⏖↼")
+            os.system('clear' if os.name == 'posix' else 'cls')
+        elif message:
             messages.append(
                 {"role": "user", "content": message},
             )
@@ -147,8 +151,7 @@ def metabotto_chat():
                 print("No face variables found")
 
             print(f"Metabotto: {metabot_response}")
-            os.system('clear' if os.name == 'posix' else 'cls')
-
+            
 def posttopaste(name):
     print(f"Welcome, {name}! To...")
     time.sleep(2)
