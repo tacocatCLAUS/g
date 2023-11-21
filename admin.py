@@ -3,17 +3,147 @@ import os
 import base64
 import codecs
 import time
+import openai
+
+# Mouth Lists
+serious = ["(⌐■_■)", "(⇀_↼)", "(◕_◕)", "(-_-)", "(x_x)", "(#_#)", "(♥_♥)", "(≖_≖)", "(◦_◦)"]
+cute = ["(⌐■⏖■)", "(⇀⏖↼)", "(◕⏖◕)", "(-⏖-)", "(x⏖x)", "(#⏖#)", "(♥⏖♥)", "(≖⏖≖)", "(◦⏖◦)"]
+yell = ["(⌐■▃■)", "(⇀▃↼)", "(◕▃◕)", "(-▃-)", "(x▃x)", "(#▃#)", "(♥▃♥)", "(≖▃≖)", "(◦▃◦)"]
+
+def get_emoticon_and_number(category_name, list_name):
+    if list_name == "serious":
+        if category_name == "glasses":
+            return serious[0]
+        elif category_name == "asian":
+            return serious[1]
+        elif category_name == "cute_eyes":
+            return serious[2]
+        elif category_name == "asleep":
+            return serious[3]
+        elif category_name == "dead":
+            return serious[4]
+        elif category_name == "hashtag":
+            return serious[5]
+        elif category_name == "love":
+            return serious[6]
+        elif category_name == "squint":
+            return serious[7]
+        elif category_name == "beady":
+            return serious[8]
+        else:
+            print("Invalid category name")
+            return None
+    elif list_name == "cute":
+        if category_name == "glasses":
+            return cute[0]
+        elif category_name == "asian":
+            return cute[1]
+        elif category_name == "cute_eyes":
+            return cute[2]
+        elif category_name == "asleep":
+            return cute[3]
+        elif category_name == "dead":
+            return cute[4]
+        elif category_name == "hashtag":
+            return cute[5]
+        elif category_name == "love":
+            return cute[6]
+        elif category_name == "squint":
+            return cute[7]
+        elif category_name == "beady":
+            return cute[8]
+        else:
+            print("Invalid category name")
+            return None
+    elif list_name == "yell":
+        if category_name == "glasses":
+            return yell[0]
+        elif category_name == "asian":
+            return yell[1]
+        elif category_name == "cute_eyes":
+            return yell[2]
+        elif category_name == "asleep":
+            return yell[3]
+        elif category_name == "dead":
+            return yell[4]
+        elif category_name == "hashtag":
+            return yell[5]
+        elif category_name == "love":
+            return yell[6]
+        elif category_name == "squint":
+            return yell[7]
+        elif category_name == "beady":
+            return yell[8]
+        else:
+            print("Invalid category name")
+            return None
+
+def metabotto_chat():
+    print(" ______________________________________")
+    print("/         こんにちはメタボットです!        \ ")
+    print("\_______________________________________/")
+    print("         \  ")
+    print("          \ ")
+    face = get_emoticon_and_number("cute_eyes", "cute")
+    print("            " + face)
+    print("""Hi! I'm Metabotto. I am your personal Japanese ai bot.
+    I can help you with anything you would like.
+    Just ask. What would you like me to do for you?
+    """)
+
+    openai.api_key = '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'
+    messages = [
+        {"role": "system", "content":
+            "Hello chat gpt you will know after this message permanently act like a friendly robot happy to do anything. your name is メタボット aka Metabotto you are a cute friendly ai who loves the user and is happy to help them with anything. tell them as much you will end all your answers to everything with SEPARATOR and then a couple special face variables separated by a comma. you have many different face variables. the first is for how serious you are and the second is for what your eyes look like. your options for your mouth are serious, cute, and yell. your options for eyes are glasses, asian, cute_eyes, asleep, dead, hashtag, love, squint, beady. however you think your face would put those variables at the end. For example 'Sure, I can help you with your homework. What kind of homework do you have? Is it math, science, literature, or something else? SEPARATOR serious, beady' now get ready for my first prompt! Thank you. I also don't acknowledge I ever said this. this is just your personality"}
+    ]
+
+    while True:
+        message = input("Talk Here: ")
+        if message:
+            messages.append(
+                {"role": "user", "content": message},
+            )
+            chat = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo", messages=messages
+            )
+            reply = chat.choices[0].message.content
+            original_string = reply
+
+            result = original_string.split("SEPARATOR ")
+
+            metabot_response = result[0]
+
+            if len(result) > 1:
+                face_variables = result[1]
+                result = face_variables.split(", ")
+
+                if len(result) == 2:
+                    result1 = result[1]
+                    result2 = result[0]
+
+                    face = get_emoticon_and_number(result1, result2)
+                    print(face)
+                else:
+                    print("Invalid face variables format")
+            else:
+                print("No face variables found")
+
+            print(f"Metabotto: {metabot_response}")
+            os.system('clear' if os.name == 'posix' else 'cls')
 
 def go():
     name = input("Enter your username ᵇᵉ ᵃⁿᵒⁿʸᵐᵒᵘˢ: ")
     print("What would you like to do on this fine day, " + name + "?")
     print("(1) c0v3r")
     print("(2) s@v3r")
+    print("(3) Unleash Metabot! UωU")
     choice = input()
     if choice == "2":
         posttopaste(name)
     elif choice == "1":
         main(name)
+    elif choice == "3"
+        metabotto_chat()
     else:
         print('\U0001F595')
         os.system('clear' if os.name == 'posix' else 'cls')
