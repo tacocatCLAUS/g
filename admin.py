@@ -25,6 +25,7 @@ def go():
         metabotto_chat()
     else:
         print('\U0001F595')
+        time.sleep(5)
         os.system('clear' if os.name == 'posix' else 'cls')
         print("Hi welcome to my little calculator! :)")
 
