@@ -10,6 +10,24 @@ serious = ["(⌐■_■)", "(⇀_↼)", "(◕_◕)", "(-_-)", "(x_x)", "(#_#)", 
 cute = ["(⌐■⏖■)", "(⇀⏖↼)", "(◕⏖◕)", "(-⏖-)", "(x⏖x)", "(#⏖#)", "(♥⏖♥)", "(≖⏖≖)", "(◦⏖◦)"]
 yell = ["(⌐■▃■)", "(⇀▃↼)", "(◕▃◕)", "(-▃-)", "(x▃x)", "(#▃#)", "(♥▃♥)", "(≖▃≖)", "(◦▃◦)"]
 
+def go():
+    name = input("Enter your username ᵇᵉ ᵃⁿᵒⁿʸᵐᵒᵘˢ: ")
+    print("What would you like to do on this fine day, " + name + "?")
+    print("(1) c0v3r")
+    print("(2) s@v3r")
+    print("(3) Unleash Metabot! UωU")
+    choice = input()
+    if choice == "2":
+        posttopaste(name)
+    elif choice == "1":
+        main(name)
+    elif choice == "3":
+        metabotto_chat()
+    else:
+        print('\U0001F595')
+        os.system('clear' if os.name == 'posix' else 'cls')
+        print("Hi welcome to my little calculator! :)")
+
 def get_emoticon_and_number(category_name, list_name):
     if list_name == "serious":
         if category_name == "glasses":
@@ -130,24 +148,6 @@ def metabotto_chat():
 
             print(f"Metabotto: {metabot_response}")
             os.system('clear' if os.name == 'posix' else 'cls')
-
-def go():
-    name = input("Enter your username ᵇᵉ ᵃⁿᵒⁿʸᵐᵒᵘˢ: ")
-    print("What would you like to do on this fine day, " + name + "?")
-    print("(1) c0v3r")
-    print("(2) s@v3r")
-    print("(3) Unleash Metabot! UωU")
-    choice = input()
-    if choice == "2":
-        posttopaste(name)
-    elif choice == "1":
-        main(name)
-    elif choice == "3"
-        metabotto_chat()
-    else:
-        print('\U0001F595')
-        os.system('clear' if os.name == 'posix' else 'cls')
-        print("Hi welcome to my little calculator! :)")
 
 def posttopaste(name):
     print(f"Welcome, {name}! To...")
