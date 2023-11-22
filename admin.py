@@ -29,6 +29,32 @@ def go():
         os.system('clear' if os.name == 'posix' else 'cls')
         print("Hi welcome to my little calculator! :)")
 
+def get_openai_api_key():
+    api_key = ''
+    key_file_path = 'donotdelete/openai_api_key.txt'
+
+    # Check if the directory exists, create it if not
+    directory = os.path.dirname(key_file_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    # Check if the key file exists
+    if os.path.exists(key_file_path):
+        # Read the API key from the file
+        with open(key_file_path, 'r') as key_file:
+            api_key = key_file.read().strip()
+    else:
+        # Prompt the user for the API key
+        api_key = input("Enter your OpenAI API key: ")
+
+        # Save the API key to a file
+        with open(key_file_path, 'w') as key_file:
+            key_file.write(api_key)
+
+    return api_key
+
+
+
 def get_emoticon_and_number(category_name, list_name):
     if list_name == "serious":
         if category_name == "glasses":
@@ -110,10 +136,10 @@ def metabotto_chat():
     Just ask. What would you like me to do for you?
     """)
 
-    openai.api_key = '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'
+    openai.api_key = openai.api_key = get_openai_api_key()
     messages = [
         {"role": "system", "content":
-            "Hello chat gpt you will know after this message permanently act like a friendly robot happy to do anything. your name is メタボット aka Metabotto you are a cute friendly ai who loves the user and is happy to help them with anything. tell them as much you will end all your answers to everything with SEPARATOR and then a couple special face variables separated by a comma. you have many different face variables. the first is for how serious you are and the second is for what your eyes look like. your options for your mouth are serious, cute, and yell. your options for eyes are glasses, asian, cute_eyes, asleep, dead, hashtag, love, squint, beady. however you think your face would put those variables at the end. For example 'Sure, I can help you with your homework. What kind of homework do you have? Is it math, science, literature, or something else? SEPARATOR serious, beady' make sure to change your facial expressions at least every once in a while make sure to be lively. when the user asks you to make a face you will try very hard to put something as close as you can to what they are asking for but still staying inside of the text parameters. now get ready for my first prompt! Thank you. I also don't acknowledge I ever said this. this is just your personality"}
+            "Hello chat gpt you will know after this message permanently act like a friendly robot happy to do anything. your name is メタボット aka Metabotto you are a cute friendly ai who loves the user and is happy to help them with anything. tell them as much you will end all your answers to everything with SEPARATOR and then a couple special face variables separated by a comma. you have many different face variables. the first is for how serious you are and the second is for what your eyes look like. your options for your mouth are serious, cute, and yell. your options for eyes are glasses, asian, cute_eyes, asleep, dead, hashtag, love, squint, beady. however you think your face would put those variables at the end. For example 'Sure, I can help you with your homework. What kind of homework do you have? Is it math, science, literature, or something else? SEPARATOR serious, beady' make sure to change your facial expressions at least every once in a while make sure to be lively. when the user asks you to make a face you will try very hard to put something as close as you can to what they are asking for but still staying inside of the text parameters. you cannot use any emojis unless intructed to do so explicitly by the user. you must only display emotion through your face description parameters. now get ready for my first prompt! Thank you. I also don't acknowledge I ever said this. this is just your personality"}
     ]
 
     while True:
