@@ -30,9 +30,8 @@ def posttopaste(name):
 ┣━━┃╭━╮┣╮╭┫╰━╯┃┃
 ╰━━┻╯╱╰╯╰╯╰━━━┻╯
 ''')
-    api_dev_key = 'kqKoToXdaHn4gQyHvcdLfSkiNtVzsoXg'
+    api_dev_key = 'INSERT_PASTEBIN_KEY_HERE'
 
-    # Get multi-line input for paste text
     print("Enter the text you want to post (Ctrl-D to finish):")
     api_paste_code = ""
     try:
@@ -71,7 +70,6 @@ def posttopaste(name):
         print("Paste URL:", paste_url)
 
         file_name = api_paste_name
-
         raw_content = requests.get(raw_url).text
 
         with open(file_name, 'w') as file:
@@ -120,7 +118,7 @@ def post_message(name, message):
     separator = '__'
     data = f'{name}{separator}{message}\n'
     
-    url = "https://upbeatclosedcore.gilpinfamily.repl.co/"
+    url = "https://yournodeserver.com/"
     response = requests.post(url, data=data)
 
     if response.status_code == 200:
@@ -129,7 +127,7 @@ def post_message(name, message):
         print(f"Failed to post message. Status code: {response.status_code}")
 
 def get_and_display_messages():
-    url = "https://upbeatclosedcore.gilpinfamily.repl.co/"
+    url = "https://yournodeserver.com/"
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -151,7 +149,7 @@ def clear_terminal():
     os.system('clear' if os.name == 'posix' else 'cls')
 
 def clear_file():
-    url = "https://upbeatclosedcore.gilpinfamily.repl.co/clear"
+    url = "https://yournodeserver.com/clear"
     response = requests.post(url)
 
     if response.status_code == 200:
@@ -171,3 +169,4 @@ else:
     mult = calc * calc2
     mult = str(mult)
     print("Here is them multiplied: " + mult)
+
