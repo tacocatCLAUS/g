@@ -19,7 +19,7 @@ TEC (short for **The Encrypted Chatroom**) is a private, anonymous chat tool you
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/tec.git
+git clone https://github.com/tacocatCLAUS/tec.git
 cd tec
 ```
 
